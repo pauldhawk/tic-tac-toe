@@ -1,0 +1,144 @@
+<template>
+<div>
+
+  <div class="game-board">
+    <div class="box" @click="updateBox('one')">{{ board.one.value }}</div>
+    <div class="box" @click="updateBox('two')">{{ board.two.value }}</div>
+    <div class="box" @click="updateBox('three')">{{ board.three.value }}</div>
+    <div class="box" @click="updateBox('four')">{{ board.four.value }}</div>
+    <div class="box" @click="updateBox('five')">{{ board.five.value }}</div>
+    <div class="box" @click="updateBox('six')">{{ board.six.value }}</div>
+    <div class="box" @click="updateBox('seven')">{{ board.seven.value }}</div>
+    <div class="box" @click="updateBox('eight')">{{ board.eight.value }}</div>
+    <div class="box" @click="updateBox('nine')">{{ board.nine.value }}</div>
+  </div>
+    </div>
+</template>
+
+<script>
+export default {
+  name: 'Game',
+  methods: {
+    updateBox(box) {
+      console.log('box updated caleedd ', box);
+      if (!this.board[box].value) {
+        this.board[box].value = this.turn === 'X' ? 'X' : 'O';
+        this.turn = this.turn === 'X' ? 'O' : 'X';
+      }
+    },
+  },
+  data() {
+    return {
+      gameOver: false,
+      turn: 'X', // 'O'
+      board: {
+        one: {
+          id: 1,
+          value: null,
+          bros: [
+            ['one', 'two', 'three'], // line
+            ['one', 'four', 'seven'], // col
+            ['one', 'five', 'nine'], // diagonal
+          ],
+        },
+        two: {
+          id: 1,
+          value: null,
+          bros: [
+            ['one', 'two', 'three'], // line
+            ['two', 'five', 'eight'], // col
+          ],
+        },
+        three: {
+          id: 1,
+          value: null,
+          bros: [
+            ['one', 'two', 'three'], // line
+            ['three', 'six', 'nine'], // col
+            ['three', 'five', 'seven'], // diagonal
+          ],
+        },
+        four: {
+          id: 1,
+          value: null,
+          bros: [
+            ['four', 'five', 'six'], // line
+            ['one', 'four', 'seven'], // col
+          ],
+        },
+        five: {
+          id: 1,
+          value: null,
+          bros: [
+            ['four', 'five', 'six'], // line
+            ['two', 'five', 'eight'], // col
+            ['one', 'five', 'nine'], // diagonal
+            ['three', 'five', 'seven'], // diagonal
+          ],
+        },
+        six: {
+          id: 1,
+          value: null,
+          bros: [
+            ['four', 'five', 'six'], // line
+            ['three', 'six', 'nine'], // col
+          ],
+        },
+        seven: {
+          id: 1,
+          value: null,
+          bros: [
+            ['seven', 'eight', 'nine'], // line
+            ['one', 'four', 'seven'], // col
+            ['three', 'five', 'seven'], // diagonal
+          ],
+        },
+        eight: {
+          id: 1,
+          value: null,
+          bros: [
+            ['seven', 'eight', 'nine'], // line
+            ['two', 'five', 'eight'], // col
+          ],
+        },
+        nine: {
+          id: 1,
+          value: null,
+          bros: [
+            ['seven', 'eight', 'nine'], // line
+            ['three', 'six', 'nine'], // col
+            ['one', 'five', 'nine'], // diagonal
+          ],
+        },
+      },
+    };
+  },
+};
+</script>
+
+<style scoped>
+.game-board {
+  width: 600px;
+  height: 600px;
+  margin: 0 auto;
+  background-color: #34495e;
+  color: #fff;
+  border: 6px solid #2c3e50;
+  border-radius: 10px;
+
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+}
+
+.box {
+  cursor: pointer;
+  border: 6px solid #2c3e50;
+  border-radius: 2px;
+  font-family: Helvetica;
+  font-weight: bold;
+  font-size: 4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
