@@ -1,8 +1,9 @@
 <template>
   <div>
+    <!-- Header Text -->
     <h1 v-if="gameOver">{{ turn }} has won the Game !!!!!!</h1>
     <h1 v-else >{{ turn }}'s Turn</h1>
-
+    <!-- Board -->
     <div class="game-board">
       <div class="box" @click="updateBox('one')">{{ board.one.value }}</div>
       <div class="box" @click="updateBox('two')">{{ board.two.value }}</div>
@@ -18,6 +19,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'Game',
   methods: {
@@ -30,11 +32,7 @@ export default {
     gameOverCheck(box) {
       const chinkenDinner = this.board[box].bros || [];
       const winnerWinner = chinkenDinner.some((xs) => {
-        const reverseCheck = xs.some((x) => {
-          const val = this.board[x].value;
-          return val !== this.turn;
-        }); //
-        // debugger;
+        const reverseCheck = xs.some(x => this.board[x].value !== this.turn);
         return !reverseCheck; // straiten it out
       });
       if (winnerWinner) {
@@ -59,7 +57,7 @@ export default {
           ],
         },
         two: {
-          id: 1,
+          id: 2,
           value: null,
           bros: [
             ['one', 'two', 'three'], // line
@@ -67,7 +65,7 @@ export default {
           ],
         },
         three: {
-          id: 1,
+          id: 3,
           value: null,
           bros: [
             ['one', 'two', 'three'], // line
@@ -76,7 +74,7 @@ export default {
           ],
         },
         four: {
-          id: 1,
+          id: 4,
           value: null,
           bros: [
             ['four', 'five', 'six'], // line
@@ -84,7 +82,7 @@ export default {
           ],
         },
         five: {
-          id: 1,
+          id: 5,
           value: null,
           bros: [
             ['four', 'five', 'six'], // line
@@ -94,7 +92,7 @@ export default {
           ],
         },
         six: {
-          id: 1,
+          id: 6,
           value: null,
           bros: [
             ['four', 'five', 'six'], // line
@@ -102,7 +100,7 @@ export default {
           ],
         },
         seven: {
-          id: 1,
+          id: 7,
           value: null,
           bros: [
             ['seven', 'eight', 'nine'], // line
@@ -111,7 +109,7 @@ export default {
           ],
         },
         eight: {
-          id: 1,
+          id: 8,
           value: null,
           bros: [
             ['seven', 'eight', 'nine'], // line
@@ -119,7 +117,7 @@ export default {
           ],
         },
         nine: {
-          id: 1,
+          id: 9,
           value: null,
           bros: [
             ['seven', 'eight', 'nine'], // line
@@ -134,28 +132,28 @@ export default {
 </script>
 
 <style scoped>
-.game-board {
-  width: 600px;
-  height: 600px;
-  margin: 0 auto;
-  background-color: #34495e;
-  color: #fff;
-  border: 6px solid #2c3e50;
-  border-radius: 10px;
+  .game-board {
+    width: 600px;
+    height: 600px;
+    margin: 0 auto;
+    background-color: #34495e;
+    color: #fff;
+    border: 6px solid #2c3e50;
+    border-radius: 10px;
 
-  display: grid;
-  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-}
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  }
 
-.box {
-  cursor: pointer;
-  border: 6px solid #2c3e50;
-  border-radius: 2px;
-  font-family: Helvetica;
-  font-weight: bold;
-  font-size: 4em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .box {
+    cursor: pointer;
+    border: 6px solid #2c3e50;
+    border-radius: 2px;
+    font-family: Helvetica;
+    font-weight: bold;
+    font-size: 4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 </style>
