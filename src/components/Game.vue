@@ -1,18 +1,20 @@
 <template>
-<div>
+  <div>
+    <h1 v-if="gameOver">{{ turn }} has won the Game !!!!!!</h1>
+    <h1 v-else >{{ turn }}'s Turn</h1>
 
-  <div class="game-board">
-    <div class="box" @click="updateBox('one')">{{ board.one.value }}</div>
-    <div class="box" @click="updateBox('two')">{{ board.two.value }}</div>
-    <div class="box" @click="updateBox('three')">{{ board.three.value }}</div>
-    <div class="box" @click="updateBox('four')">{{ board.four.value }}</div>
-    <div class="box" @click="updateBox('five')">{{ board.five.value }}</div>
-    <div class="box" @click="updateBox('six')">{{ board.six.value }}</div>
-    <div class="box" @click="updateBox('seven')">{{ board.seven.value }}</div>
-    <div class="box" @click="updateBox('eight')">{{ board.eight.value }}</div>
-    <div class="box" @click="updateBox('nine')">{{ board.nine.value }}</div>
-  </div>
+    <div class="game-board">
+      <div class="box" @click="updateBox('one')">{{ board.one.value }}</div>
+      <div class="box" @click="updateBox('two')">{{ board.two.value }}</div>
+      <div class="box" @click="updateBox('three')">{{ board.three.value }}</div>
+      <div class="box" @click="updateBox('four')">{{ board.four.value }}</div>
+      <div class="box" @click="updateBox('five')">{{ board.five.value }}</div>
+      <div class="box" @click="updateBox('six')">{{ board.six.value }}</div>
+      <div class="box" @click="updateBox('seven')">{{ board.seven.value }}</div>
+      <div class="box" @click="updateBox('eight')">{{ board.eight.value }}</div>
+      <div class="box" @click="updateBox('nine')">{{ board.nine.value }}</div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -20,9 +22,24 @@ export default {
   name: 'Game',
   methods: {
     updateBox(box) {
-      console.log('box updated caleedd ', box);
-      if (!this.board[box].value) {
+      if (!this.gameOver && !this.board[box].value) {
         this.board[box].value = this.turn === 'X' ? 'X' : 'O';
+        this.gameOverCheck(box);
+      }
+    },
+    gameOverCheck(box) {
+      const chinkenDinner = this.board[box].bros || [];
+      const winnerWinner = chinkenDinner.some((xs) => {
+        const reverseCheck = xs.some((x) => {
+          const val = this.board[x].value;
+          return val !== this.turn;
+        }); //
+        // debugger;
+        return !reverseCheck; // straiten it out
+      });
+      if (winnerWinner) {
+        this.gameOver = true;
+      } else {
         this.turn = this.turn === 'X' ? 'O' : 'X';
       }
     },
