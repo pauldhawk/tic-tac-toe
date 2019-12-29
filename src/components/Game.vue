@@ -3,6 +3,7 @@
     <!-- Header Text -->
     <h1 v-if="gameOver">{{ turn }} has won the Game !!!!!!</h1>
     <h1 v-else >{{ turn }}'s Turn</h1>
+    <v-btn @click="resetGame('one')" color="error">Reset Game</v-btn>
     <!-- Board -->
     <div class="game-board">
       <div class="box" @click="updateBox('one')">{{ board.one.value }}</div>
@@ -23,6 +24,13 @@
 export default {
   name: 'Game',
   methods: {
+    resetGame() {
+      const keys = Object.keys(this.board);
+      keys.forEach((key) => {
+        this.board[key].value = null;
+      });
+      this.gameOver = false;
+    },
     updateBox(box) {
       if (!this.gameOver && !this.board[box].value) {
         this.board[box].value = this.turn === 'X' ? 'X' : 'O';

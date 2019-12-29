@@ -1,28 +1,37 @@
 <template>
-  <div id="app">
-    <Game></Game>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <div class="d-flex align-center">
+      Wes' Website
+      </div>
+
+      <v-spacer></v-spacer>
+
+    </v-app-bar>
+
+    <v-content>
+      <v-spacer></v-spacer>
+      <TicTacToe/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
 
-import Game from './components/Game.vue';
+import TicTacToe from './components/Game.vue';
 
 export default {
-  name: 'app',
+  name: 'App',
+
   components: {
-    Game,
+    TicTacToe,
   },
+
+  data: () => ({
+  }),
 };
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
