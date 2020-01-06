@@ -5,8 +5,8 @@
       color="primary"
       dark
     >
-      <div class="d-flex align-center">
-      Wes' Website
+      <div class="align-center">
+        Tick Tack Toe
       </div>
 
       <v-spacer></v-spacer>

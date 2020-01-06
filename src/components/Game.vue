@@ -1,20 +1,32 @@
 <template>
   <div>
-    <!-- Header Text -->
-    <h1 v-if="gameOver">{{ turn }} has won the Game !!!!!!</h1>
-    <h1 v-else >{{ turn }}'s Turn</h1>
-    <v-btn @click="resetGame('one')" color="error">Reset Game</v-btn>
+    <div class="d-flex justify-space-around ma-4">
+      <h1 v-if="gameOver">{{ turn }} Has Won The Game</h1>
+      <h1 v-else>{{ turn }}'s' Turn</h1>
+
+      <v-btn x-large dark color="red darken-4" @click="resetGame()">Reset Game</v-btn>
+    </div>
+
     <!-- Board -->
     <div class="game-board">
-      <div class="box" @click="updateBox('one')">{{ board.one.value }}</div>
-      <div class="box" @click="updateBox('two')">{{ board.two.value }}</div>
-      <div class="box" @click="updateBox('three')">{{ board.three.value }}</div>
-      <div class="box" @click="updateBox('four')">{{ board.four.value }}</div>
-      <div class="box" @click="updateBox('five')">{{ board.five.value }}</div>
-      <div class="box" @click="updateBox('six')">{{ board.six.value }}</div>
-      <div class="box" @click="updateBox('seven')">{{ board.seven.value }}</div>
-      <div class="box" @click="updateBox('eight')">{{ board.eight.value }}</div>
-      <div class="box" @click="updateBox('nine')">{{ board.nine.value }}</div>
+      <div :class="{ winner: winners['one'] === true }"
+          class="box" @click="updateBox('one')">{{ board.one.value }}</div>
+      <div :class="{ winner: winners['two'] === true }"
+        class="box" @click="updateBox('two')">{{ board.two.value }}</div>
+      <div :class="{ winner: winners['three'] === true }"
+        class="box" @click="updateBox('three')">{{ board.three.value }}</div>
+      <div :class="{ winner: winners['four'] === true }"
+        class="box" @click="updateBox('four')">{{ board.four.value }}</div>
+      <div :class="{ winner: winners['five'] === true }"
+        class="box" @click="updateBox('five')">{{ board.five.value }}</div>
+      <div :class="{ winner: winners['six'] === true }"
+        class="box" @click="updateBox('six')">{{ board.six.value }}</div>
+      <div :class="{ winner: winners['seven'] === true }"
+        class="box" @click="updateBox('seven')">{{ board.seven.value }}</div>
+      <div :class="{ winner: winners['eight'] === true }"
+        class="box" @click="updateBox('eight')">{{ board.eight.value }}</div>
+      <div :class="{ winner: winners['nine'] === true }"
+        class="box" @click="updateBox('nine')">{{ board.nine.value }}</div>
     </div>
   </div>
 </template>
@@ -25,11 +37,11 @@ export default {
   name: 'Game',
   methods: {
     resetGame() {
-      const keys = Object.keys(this.board);
-      keys.forEach((key) => {
-        this.board[key].value = null;
-      });
       this.gameOver = false;
+      this.winners = {};
+      Object.keys(this.board).forEach((x) => {
+        this.board[x].value = null;
+      });
     },
     updateBox(box) {
       if (!this.gameOver && !this.board[box].value) {
@@ -41,6 +53,9 @@ export default {
       const chinkenDinner = this.board[box].bros || [];
       const winnerWinner = chinkenDinner.some((xs) => {
         const reverseCheck = xs.some(x => this.board[x].value !== this.turn);
+        if (!reverseCheck === true) {
+          this.setWinners(xs);
+        }
         return !reverseCheck; // straiten it out
       });
       if (winnerWinner) {
@@ -49,11 +64,16 @@ export default {
         this.turn = this.turn === 'X' ? 'O' : 'X';
       }
     },
+    setWinners(w) {
+      this.winners = w.reduce((result, x) => ({ ...result, [x]: true }), {});
+      console.log('winners', this.winners);
+    },
   },
   data() {
     return {
       gameOver: false,
       turn: 'X', // 'O'
+      winners: {},
       board: {
         one: {
           id: 1,
@@ -163,5 +183,8 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .winner {
+    background-color: pink;
   }
 </style>
