@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="d-flex justify-space-around ma-4">
+      <!-- Message -->
       <h1 v-if="gameOver">{{ turn }} Has Won The Game</h1>
-      <h1 v-else>{{ turn }}'s' Turn</h1>
-
+      <h1 v-else>{{ turn }}'s Turn</h1>
+      <!-- Reset Button -->
       <v-btn x-large dark color="red darken-4" @click="resetGame()">Reset Game</v-btn>
     </div>
-
     <!-- Board -->
     <div class="game-board">
       <div :class="{ winner: winners['one'] === true }"
@@ -50,11 +50,12 @@ export default {
       }
     },
     gameOverCheck(box) {
-      const chinkenDinner = this.board[box].bros || [];
-      const winnerWinner = chinkenDinner.some((xs) => {
+      const chinkenDinner = this.board[box].bros || []; // grabs winner combos
+      const winnerWinner = chinkenDinner.some((xs) => { // check to see if any combo wins
         const reverseCheck = xs.some(x => this.board[x].value !== this.turn);
-        if (!reverseCheck === true) {
-          this.setWinners(xs);
+        // check to see if a combo wins
+        if (!reverseCheck === true) { // if we have a winner
+          this.setWinners(xs); // set them
         }
         return !reverseCheck; // straiten it out
       });
@@ -64,16 +65,15 @@ export default {
         this.turn = this.turn === 'X' ? 'O' : 'X';
       }
     },
-    setWinners(w) {
+    setWinners(w) { // so we can highlight the winning sqrs
       this.winners = w.reduce((result, x) => ({ ...result, [x]: true }), {});
-      console.log('winners', this.winners);
     },
   },
   data() {
     return {
       gameOver: false,
       turn: 'X', // 'O'
-      winners: {},
+      winners: {}, // to highlist winning cols
       board: {
         one: {
           id: 1,
@@ -185,6 +185,6 @@ export default {
     align-items: center;
   }
   .winner {
-    background-color: pink;
+    background-color: purple;
   }
 </style>
