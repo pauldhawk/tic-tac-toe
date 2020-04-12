@@ -6,7 +6,7 @@
       dark
     >
       <div class="align-center">
-        Tick Tack Toe
+        Tick Tac Toe
       </div>
 
       <v-spacer></v-spacer>
