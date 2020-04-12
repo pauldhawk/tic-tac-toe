@@ -3,7 +3,7 @@
     <div class="d-flex justify-space-around ma-4">
       <!-- Message -->
       <h1 v-if="gameOver">{{ turn }} Has Won The Game</h1>
-      <h1 v-else>{{ turn }}'s Turn</h1>
+      <h1 v-else>{{ turn }}'s Turn, turn number: {{ turnNumber }}</h1>
       <!-- Reset Button -->
       <v-btn x-large dark color="red darken-4" @click="resetGame()">Reset Game</v-btn>
     </div>
@@ -42,6 +42,7 @@ export default {
       Object.keys(this.board).forEach((x) => {
         this.board[x].value = null;
       });
+      this.turnNumber = 0;
     },
     updateBox(box) {
       if (!this.gameOver && !this.board[box].value) {
@@ -50,7 +51,7 @@ export default {
       }
     },
     gameOverCheck(box) {
-      const chinkenDinner = this.board[box].bros || []; // grabs winner combos
+      const chinkenDinner = this.board[box].winning_pairs || []; // grabs winner combos
       const winnerWinner = chinkenDinner.some((xs) => { // check to see if any combo wins
         const reverseCheck = xs.some(x => this.board[x].value !== this.turn);
         // check to see if a combo wins
@@ -63,6 +64,7 @@ export default {
         this.gameOver = true;
       } else {
         this.turn = this.turn === 'X' ? 'O' : 'X';
+        this.turnNumber += 1;
       }
     },
     setWinners(w) { // so we can highlight the winning sqrs
@@ -72,13 +74,14 @@ export default {
   data() {
     return {
       gameOver: false,
+      turnNumber: 0,
       turn: 'X', // 'O'
       winners: {}, // to highlist winning cols
       board: {
         one: {
           id: 1,
           value: null,
-          bros: [
+          winning_pairs: [
             ['one', 'two', 'three'], // line
             ['one', 'four', 'seven'], // col
             ['one', 'five', 'nine'], // diagonal
@@ -87,7 +90,7 @@ export default {
         two: {
           id: 2,
           value: null,
-          bros: [
+          winning_pairs: [
             ['one', 'two', 'three'], // line
             ['two', 'five', 'eight'], // col
           ],
@@ -95,7 +98,7 @@ export default {
         three: {
           id: 3,
           value: null,
-          bros: [
+          winning_pairs: [
             ['one', 'two', 'three'], // line
             ['three', 'six', 'nine'], // col
             ['three', 'five', 'seven'], // diagonal
@@ -104,7 +107,7 @@ export default {
         four: {
           id: 4,
           value: null,
-          bros: [
+          winning_pairs: [
             ['four', 'five', 'six'], // line
             ['one', 'four', 'seven'], // col
           ],
@@ -112,7 +115,7 @@ export default {
         five: {
           id: 5,
           value: null,
-          bros: [
+          winning_pairs: [
             ['four', 'five', 'six'], // line
             ['two', 'five', 'eight'], // col
             ['one', 'five', 'nine'], // diagonal
@@ -122,7 +125,7 @@ export default {
         six: {
           id: 6,
           value: null,
-          bros: [
+          winning_pairs: [
             ['four', 'five', 'six'], // line
             ['three', 'six', 'nine'], // col
           ],
@@ -130,7 +133,7 @@ export default {
         seven: {
           id: 7,
           value: null,
-          bros: [
+          winning_pairs: [
             ['seven', 'eight', 'nine'], // line
             ['one', 'four', 'seven'], // col
             ['three', 'five', 'seven'], // diagonal
@@ -139,7 +142,7 @@ export default {
         eight: {
           id: 8,
           value: null,
-          bros: [
+          winning_pairs: [
             ['seven', 'eight', 'nine'], // line
             ['two', 'five', 'eight'], // col
           ],
@@ -147,7 +150,7 @@ export default {
         nine: {
           id: 9,
           value: null,
-          bros: [
+          winning_pairs: [
             ['seven', 'eight', 'nine'], // line
             ['three', 'six', 'nine'], // col
             ['one', 'five', 'nine'], // diagonal
