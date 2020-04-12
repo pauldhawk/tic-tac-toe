@@ -3,12 +3,33 @@
     <div class="d-flex justify-space-around ma-4">
       <!-- Message -->
       <h1 v-if="gameOver">{{ turn }} Has Won The Game</h1>
-      <h1 v-else>{{ turn }}'s Turn, turn number: {{ turnNumber }}</h1>
+      <h1 v-if="gameIsDraw">This Game Is At A Draw</h1>
+      <h1 v-else>{{ turn }}'s Turn</h1>
+      <br />
       <!-- Reset Button -->
       <v-btn x-large dark color="red darken-4" @click="resetGame()">Reset Game</v-btn>
     </div>
+    <div class="select-board-size">
+      <v-select
+        v-model="board_size"
+        :items="board_sizes"
+        label="Solo field"
+        solo
+      ></v-select>
+    </div>
+    <!-- debug info -->
+    <div v-if="debug">
+
+      <h1>turn number: {{ turnNumber }}</h1>
+      <h1>board size: {{ board_size }}</h1>
+      <h1>draw: {{gameIsDraw}}</h1>
+    </div>
     <!-- Board -->
-    <div class="game-board">
+    <div :class="{
+      'game-board-600px': board_size == 'normal',
+      'game-board-1000px': board_size == 'large'
+      }"
+        class="game-board">
       <div :class="{ winner: winners['one'] === true }"
           class="box" @click="updateBox('one')">{{ board.one.value }}</div>
       <div :class="{ winner: winners['two'] === true }"
@@ -39,6 +60,7 @@ export default {
     resetGame() {
       this.gameOver = false;
       this.winners = {};
+      this.gameIsDraw = false;
       Object.keys(this.board).forEach((x) => {
         this.board[x].value = null;
       });
@@ -62,6 +84,8 @@ export default {
       });
       if (winnerWinner) {
         this.gameOver = true;
+      } else if (this.turnNumber === 8) {
+        this.gameIsDraw = true;
       } else {
         this.turn = this.turn === 'X' ? 'O' : 'X';
         this.turnNumber += 1;
@@ -73,10 +97,14 @@ export default {
   },
   data() {
     return {
+      debug: false,
       gameOver: false,
+      gameIsDraw: false,
       turnNumber: 0,
       turn: 'X', // 'O'
       winners: {}, // to highlist winning cols
+      board_size: 'normal', // large
+      board_sizes: ['normal', 'large'],
       board: {
         one: {
           id: 1,
@@ -164,8 +192,6 @@ export default {
 
 <style scoped>
   .game-board {
-    width: 600px;
-    height: 600px;
     margin: 0 auto;
     background-color: #34495e;
     color: #fff;
@@ -174,6 +200,15 @@ export default {
 
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  }
+
+  .game-board-600px {
+    width: 600px;
+    height: 600px;
+  }
+  .game-board-1000px {
+    width: 750px;
+    height: 750px;
   }
 
   .box {
@@ -189,5 +224,9 @@ export default {
   }
   .winner {
     background-color: purple;
+  }
+  .select-board-size {
+    width: 30%;
+    margin-left: 1rem;
   }
 </style>
